@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP Якутск | Оригиналы и реплики</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary-black: #0a0a0a;
+    --primary-white: #ffffff;
+    --accent-gold: #FFD700;
+    --accent-silver: #C0C0C0;
+    --accent-red: #FF3B30;
+    --bg-light: #f8f9fa;
+    --bg-dark: #1a1a1a;
+    --text-light: #666666;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--primary-white);
+    color: var(--primary-black);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Modern Header */
+  .main-header {
+    background: var(--primary-black);
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    font-size: 2.2rem;
+    color: var(--accent-gold);
+  }
+
+  .logo-text {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: var(--primary-white);
+    letter-spacing: -0.5px;
+  }
+
+  .logo-subtitle {
+    font-size: 0.7rem;
+    color: var(--accent-silver);
+    margin-top: -5px;
+    letter-spacing: 1.5px;
+  }
+
+  /* Navigation */
+  .main-nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-link {
+    color: var(--primary-white);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-gold);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .nav-link.active {
+    color: var(--accent-gold);
+  }
+
+  .nav-link.active::after {
+    width: 100%;
+  }
+
+  /* Header Actions */
+  .header-actions {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    color: var(--primary-white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-2px);
+    color: var(--accent-gold);
+  }
+
+  .badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--accent-red);
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .cart-badge {
+    background: var(--accent-gold);
+    color: var(--primary-black);
+  }
+
+  /* Hero Section */
+  .hero {
+    margin-top: 80px;
+    position: relative;
+    height: 80vh;
+    min-height: 600px;
+    overflow: hidden;
+  }
+
+  .hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-slide.active {
+    opacity: 1;
+  }
+
+  .hero-content {
+    text-align: center;
+    color: var(--primary-white);
+    max-width: 800px;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    animation: fadeInUp 1s ease;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--accent-silver);
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--accent-gold);
+    color: var(--primary-black);
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .hero-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+  }
+
+  /* Type Badges */
+  .type-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .type-original {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: var(--primary-black);
+  }
+
+  .type-replica {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+  }
+
+  .type-preorder {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+  }
+
+  /* Product Grid */
+  .section {
+    padding: 5rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--accent-gold);
+  }
+
+  .section-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .product-card {
+    background: var(--primary-white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .product-badge-container {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+
+  .product-info {
+    padding: 1.5rem;
+  }
+
+  .product-category {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .price-original {
+    color: #27ae60;
+  }
+
+  .price-replica {
+    color: #667eea;
+  }
+
+  .product-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--primary-black);
+    color: var(--primary-white);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-gold);
+    color: var(--primary-black);
+  }
+
+  .btn-secondary {
+    background: var(--bg-light);
+    color: var(--primary-black);
+  }
+
+  .btn-secondary:hover {
+    background: #e9ecef;
+  }
+
+  /* Features Section */
+  .features {
+    background: var(--bg-light);
+    border-radius: 20px;
+    padding: 4rem;
+    margin: 4rem auto;
+    max-width: 1200px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .feature-card {
+    text-align: center;
+    padding: 2rem;
+    background: var(--primary-white);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-gold);
+  }
+
+  /* Footer */
+  .main-footer {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    padding: 4rem 2rem 2rem;
+    margin-top: 4rem;
+  }
+
+  .footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+  }
+
+  .footer-column h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-gold);
+  }
+
+  .footer-column ul {
+    list-style: none;
+  }
+
+  .footer-column ul li {
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-column ul li a {
+    color: var(--accent-silver);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-column ul li a:hover {
+    color: var(--accent-gold);
+  }
+
+  .copyright {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--accent-silver);
+    font-size: 0.9rem;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .hero-title {
+      font-size: 2.8rem;
+    }
+    
+    .products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .main-header {
+      padding: 1rem;
+    }
+    
+    .main-nav {
+      display: none;
+    }
+    
+    .mobile-menu-btn {
+      display: block;
+    }
+    
+    .hero-title {
+      font-size: 2.2rem;
+    }
+    
+    .section {
+      padding: 3rem 1rem;
+    }
+    
+    .features {
+      padding: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 1.8rem;
+    }
+    
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .product-actions {
+      flex-direction: column;
+    }
+  }
+
+  /* Notification */
+  .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    background: #27ae60;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    animation: slideInRight 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* Loading Animation */
+  .loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--accent-gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+<header class="main-header">
+  <div class="header-container">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">👑</div>
+      <div>
+        <div class="logo-text">DROP SHOP</div>
+        <div class="logo-subtitle">ЯКУТСК | ОРИГИНАЛЫ & РЕПЛИКИ</div>
+      </div>
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link active">Главная</a>
+      <a href="catalog.html" class="nav-link">Каталог</a>
+      <a href="about.html" class="nav-link">О нас</a>
+      <a href="contact.html" class="nav-link">Контакты</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="action-btn" onclick="toggleWishlist()">
+        <i class="far fa-heart"></i>
+        <span class="badge" id="wishlistCount">0</span>
+      </button>
+      <button class="action-btn" onclick="toggleCompare()">
+        <i class="fas fa-balance-scale"></i>
+        <span class="badge" id="compareCount">0</span>
+      </button>
+      <button class="action-btn" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="badge cart-badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1920&q=80')">
+    <div class="hero-content">
+      <h1 class="hero-title">ОРИГИНАЛЫ И РЕПЛИКИ В ЯКУТСКЕ</h1>
+      <p class="hero-subtitle">Реплики в наличии • Оригиналы под заказ • Гарантия качества • Доставка по Якутску</p>
+      <a href="catalog.html" class="hero-badge">СМОТРЕТЬ КАТАЛОГ</a>
+    </div>
+  </div>
+</section>
+
+<!-- Popular Products -->
+<section class="section">
+  <h2 class="section-title">ПОПУЛЯРНЫЕ ТОВАРЫ</h2>
+  <p class="section-subtitle">Реплики доступны сразу, оригиналы доставляются под заказ</p>
+  
+  <div class="products-grid" id="popularProducts">
+    <!-- Products loaded by JavaScript -->
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features">
+  <h2 class="section-title" style="color: var(--primary-black);">ПОЧЕМУ МЫ?</h2>
+  <p class="section-subtitle">Лучший сервис в Якутске по продаже оригиналов и реплик</p>
+  
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🚚</div>
+      <h3>Быстрая доставка</h3>
+      <p>Доставка по Якутску за 2-3 часа. Реплики в наличии, оригиналы под заказ 7-14 дней</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <h3>Гарантия качества</h3>
+      <p>Все товары проходят проверку. Гарантия на реплики 30 дней, на оригиналы - 1 год</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">💎</div>
+      <h3>Только лучшее</h3>
+      <p>Отбираем лучшие реплики на рынке. Работаем напрямую с поставщиками оригиналов</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">👑</div>
+      <h3>Эксклюзив в Якутске</h3>
+      <p>Единственный магазин в Якутске с таким ассортиментом оригиналов и реплик</p>
+    </div>
+  </div>
+</section>
+
+<!-- Product Types -->
+<section class="section">
+  <h2 class="section-title">ТИПЫ ТОВАРОВ</h2>
+  <p class="section-subtitle">Выберите то, что подходит именно вам</p>
+  
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-badge-container">
+        <span class="type-badge type-replica">РЕПЛИКА</span>
+        <span class="type-badge" style="background: #27ae60; color: white;">В НАЛИЧИИ</span>
+      </div>
+      <img src="https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800" class="product-image" alt="Nike Air Jordan 1 Replica">
+      <div class="product-info">
+        <div class="product-category">ОБУВЬ • РЕПЛИКА</div>
+        <h3 class="product-name">Nike Air Jordan 1 Replica</h3>
+        <div class="product-price price-replica">12 990 ₽</div>
+        <div class="product-actions">
+          <button class="btn btn-primary" onclick="addToCart(201, 'replica')">
+            <i class="fas fa-shopping-bag"></i> В корзину
+          </button>
+          <button class="btn btn-secondary" onclick="window.location.href='product.html?id=201'">
+            Подробнее
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="product-card">
+      <div class="product-badge-container">
+        <span class="type-badge type-original">ОРИГИНАЛ</span>
+        <span class="type-badge type-preorder">ПОД ЗАКАЗ</span>
+      </div>
+      <img src="https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800" class="product-image" alt="New Balance 2002 Original">
+      <div class="product-info">
+        <div class="product-category">ОБУВЬ • ОРИГИНАЛ</div>
+        <h3 class="product-name">New Balance 2002 Original</h3>
+        <div class="product-price price-original">34 990 ₽</div>
+        <div class="product-actions">
+          <button class="btn btn-primary" onclick="addToCart(102, 'original')">
+            <i class="fas fa-shopping-bag"></i> Заказать
+          </button>
+          <button class="btn btn-secondary" onclick="window.location.href='product.html?id=102'">
+            Подробнее
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="main-footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>DROP SHOP ЯКУТСК</h3>
+      <p style="color: var(--accent-silver); margin-bottom: 1.5rem;">Единственный магазин в Якутске с оригиналами под заказ и качественными репликами в наличии.</p>
+      <div style="display: flex; gap: 1rem;">
+        <a href="#" style="color: var(--accent-silver); font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+        <a href="#" style="color: var(--accent-silver); font-size: 1.2rem;"><i class="fab fa-telegram"></i></a>
+        <a href="#" style="color: var(--accent-silver); font-size: 1.2rem;"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Меню</h3>
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="catalog.html">Каталог</a></li>
+        <li><a href="about.html">О нас</a></li>
+        <li><a href="contact.html">Контакты</a></li>
+        <li><a href="cart.html">Корзина</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Контакты</h3>
+      <ul>
+        <li><i class="fas fa-map-marker-alt"></i> Якутск, ул. Ленина, 15</li>
+        <li><i class="fas fa-phone"></i> +7 (999) 123-45-67</li>
+        <li><i class="fas fa-clock"></i> Пн-Вс: 10:00-22:00</li>
+        <li><i class="fas fa-envelope"></i> info@dropshop-ykt.ru</li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Информация</h3>
+      <ul>
+        <li><a href="delivery.html">Доставка и оплата</a></li>
+        <li><a href="guarantee.html">Гарантия</a></li>
+        <li><a href="return.html">Возврат</a></li>
+        <li><a href="admin.html" style="color: var(--accent-gold);"><i class="fas fa-lock"></i> Админ панель</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="copyright">
+    <p>© 2024 DROP SHOP Якутск. Все права защищены.</p>
+    <p style="margin-top: 0.5rem;">Реплики в наличии • Оригиналы под заказ • Только для Якутска</p>
+  </div>
+</footer>
+
+<!-- Notification Container -->
+<div id="notificationContainer"></div>
+
+<!-- Loading Overlay -->
+<div class="loading" id="loading" style="display: none;">
+  <div class="spinner"></div>
+</div>
+
+<script>
+  // Глобальные переменные
+  let cart = JSON.parse(localStorage.getItem('cart')) || {};
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  let compareList = JSON.parse(localStorage.getItem('compare')) || [];
+
+  // Обновление счетчиков
+  function updateCounters() {
+    // Обновляем счетчик избранного
+    const wishlistCount = wishlist.length;
+    document.getElementById('wishlistCount').textContent = wishlistCount > 99 ? '99+' : wishlistCount;
+    
+    // Обновляем счетчик сравнения
+    const compareCount = compareList.length;
+    document.getElementById('compareCount').textContent = compareCount > 99 ? '99+' : compareCount;
+    
+    // Обновляем счетчик корзины
+    const cartItems = Object.values(cart).reduce((sum, item) => sum + (item.quantity || 1), 0);
+    document.getElementById('cartCount').textContent = cartItems > 99 ? '99+' : cartItems;
+  }
+
+  // Показать уведомление
+  function showNotification(message, type = 'success') {
+    const container = document.getElementById('notificationContainer');
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.style.background = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db';
+    notification.innerHTML = `
+      <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+      <span>${message}</span>
+    `;
+    
+    container.appendChild(notification);
+    
+    // Автоматическое скрытие
+    setTimeout(() => {
+      notification.style.animation = 'slideInRight 0.3s ease reverse';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+
+  // Добавить в корзину
+  function addToCart(productId, type = 'replica') {
+    showLoading(true);
+    
+    // Ищем товар в базе
+    const products = JSON.parse(localStorage.getItem('catalogProducts')) || getDefaultProducts();
+    const product = products.find(p => p.id == productId);
+    
+    if (!product) {
+      showNotification('Товар не найден', 'error');
+      showLoading(false);
+      return;
+    }
+    
+    // Создаем уникальный ключ для корзины
+    const cartKey = `${productId}_${Date.now()}`;
+    
+    // Добавляем в корзину
+    cart[cartKey] = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      type: product.type || type,
+      category: product.category,
+      quantity: 1,
+      size: product.sizes ? product.sizes[0] : 'M',
+      deliveryTime: type === 'original' ? '7-14 дней' : '2-3 часа',
+      addedAt: new Date().toISOString()
+    };
+    
+    // Сохраняем в localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Обновляем счетчики
+    updateCounters();
+    
+    // Показываем уведомление
+    showNotification(`${product.name} добавлен в корзину`);
+    
+    showLoading(false);
+  }
+
+  // Получить стандартные товары
+  function getDefaultProducts() {
+    return [
+      {
+        id: 201,
+        name: "Nike Air Jordan 1 Replica",
+        price: 12990,
+        type: "replica",
+        category: "обувь",
+        image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800",
+        sizes: ["40", "41", "42", "43", "44"],
+        inStock: true
+      },
+      {
+        id: 102,
+        name: "New Balance 2002 Original",
+        price: 34990,
+        type: "original",
+        category: "обувь",
+        image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800",
+        sizes: ["40", "41", "42", "43", "44"],
+        inStock: false,
+        deliveryTime: "7-14 дней"
+      }
+    ];
+  }
+
+  // Показать/скрыть загрузку
+  function showLoading(show) {
+    document.getElementById('loading').style.display = show ? 'flex' : 'none';
+  }
+
+  // Избранное
+  function toggleWishlist() {
+    if (wishlist.length === 0) {
+      showNotification('Добавьте товары в избранное через каталог', 'info');
+      return;
+    }
+    window.location.href = 'wishlist.html';
+  }
+
+  // Сравнение
+  function toggleCompare() {
+    if (compareList.length < 2) {
+      showNotification('Добавьте минимум 2 товара для сравнения', 'info');
+      return;
+    }
+    window.location.href = 'compare.html';
+  }
+
+  // Загрузка популярных товаров
+  function loadPopularProducts() {
+    const container = document.getElementById('popularProducts');
+    const products = JSON.parse(localStorage.getItem('catalogProducts')) || getDefaultProducts();
+    
+    // Берем первые 4 товара
+    const popular = products.slice(0, 4);
+    
+    container.innerHTML = popular.map(product => `
+      <div class="product-card">
+        <div class="product-badge-container">
+          <span class="type-badge ${product.type === 'original' ? 'type-original' : 'type-replica'}">
+            ${product.type === 'original' ? 'ОРИГИНАЛ' : 'РЕПЛИКА'}
+          </span>
+          <span class="type-badge" style="background: ${product.inStock ? '#27ae60' : '#f5576c'}; color: white;">
+            ${product.inStock ? 'В НАЛИЧИИ' : 'ПОД ЗАКАЗ'}
+          </span>
+        </div>
+        <img src="${product.image}" class="product-image" alt="${product.name}">
+        <div class="product-info">
+          <div class="product-category">${product.category.toUpperCase()} • ${product.type === 'original' ? 'ОРИГИНАЛ' : 'РЕПЛИКА'}</div>
+          <h3 class="product-name">${product.name}</h3>
+          <div class="product-price ${product.type === 'original' ? 'price-original' : 'price-replica'}">
+            ${product.price.toLocaleString()} ₽
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-primary" onclick="addToCart(${product.id}, '${product.type}')">
+              <i class="fas fa-shopping-bag"></i> ${product.type === 'original' ? 'Заказать' : 'В корзину'}
+            </button>
+            <button class="btn btn-secondary" onclick="window.location.href='product.html?id=${product.id}'">
+              Подробнее
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Инициализация при загрузке страницы
+  document.addEventListener('DOMContentLoaded', function() {
+    updateCounters();
+    loadPopularProducts();
+    
+    // Запускаем слайдер
+    startHeroSlider();
+  });
+
+  // Слайдер на главной
+  function startHeroSlider() {
+    const slides = document.querySelectorAll('.hero-slide');
+    let currentSlide = 0;
+    
+    setInterval(() => {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }, 5000);
+  }
+</script>
+</body>
+</html>

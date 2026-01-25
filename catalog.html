@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP - Каталог</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary-black: #0a0a0a;
+    --primary-white: #ffffff;
+    --accent-gold: #FFD700;
+    --accent-silver: #C0C0C0;
+    --accent-red: #FF3B30;
+    --bg-light: #f8f9fa;
+    --bg-dark: #1a1a1a;
+    --text-light: #666666;
+    --success-green: #27ae60;
+    --info-blue: #3498db;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--primary-white);
+    color: var(--primary-black);
+    line-height: 1.6;
+    padding-top: 80px;
+  }
+
+  /* Header (единый стиль) */
+  .main-header {
+    background: var(--primary-black);
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    font-size: 2.2rem;
+    color: var(--accent-gold);
+  }
+
+  .logo-text {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: var(--primary-white);
+    letter-spacing: -0.5px;
+  }
+
+  .logo-subtitle {
+    font-size: 0.7rem;
+    color: var(--accent-silver);
+    margin-top: -5px;
+    letter-spacing: 1.5px;
+  }
+
+  .main-nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-link {
+    color: var(--primary-white);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-gold);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .nav-link.active {
+    color: var(--accent-gold);
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    color: var(--primary-white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-2px);
+    color: var(--accent-gold);
+  }
+
+  .badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--accent-red);
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .cart-badge {
+    background: var(--accent-gold);
+    color: var(--primary-black);
+  }
+
+  /* Каталог */
+  .catalog-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .catalog-header {
+    margin-bottom: 2rem;
+  }
+
+  .catalog-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+
+  .catalog-subtitle {
+    color: var(--text-light);
+    font-size: 1.1rem;
+  }
+
+  .filters-container {
+    background: var(--bg-light);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+  }
+
+  .filter-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .filter-title {
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+  }
+
+  .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.6rem 1.2rem;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent-gold);
+  }
+
+  .filter-btn.active {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: var(--primary-black);
+  }
+
+  .type-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
+  }
+
+  .type-original {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: var(--primary-black);
+  }
+
+  .type-replica {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-box:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+  }
+
+  /* Products Grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .product-card {
+    background: var(--primary-white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .product-image-container {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background: var(--bg-light);
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+
+  .product-badge-container {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .product-badge {
+    background-color: #000;
+    color: white;
+    padding: 5px 10px;
+    font-size: 0.8em;
+    font-weight: 600;
+    border-radius: 3px;
+  }
+
+  .product-type-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 10px;
+    font-size: 0.7em;
+    font-weight: 600;
+    z-index: 2;
+    border-radius: 3px;
+    color: white;
+  }
+
+  .original-badge {
+    background-color: #27ae60;
+  }
+
+  .replica-badge {
+    background-color: #3498db;
+  }
+
+  .product-info {
+    padding: 1.5rem;
+  }
+
+  .product-category {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+    height: 2.8em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .price-original {
+    color: #27ae60;
+  }
+
+  .price-replica {
+    color: #3498db;
+  }
+
+  .old-price {
+    font-size: 1rem;
+    color: var(--text-light);
+    text-decoration: line-through;
+    margin-right: 0.5rem;
+  }
+
+  .product-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
+  }
+
+  .rating-stars {
+    color: #f39c12;
+  }
+
+  .product-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--primary-black);
+    color: var(--primary-white);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-gold);
+    color: var(--primary-black);
+  }
+
+  .btn-secondary {
+    background: var(--bg-light);
+    color: var(--primary-black);
+  }
+
+  .btn-secondary:hover {
+    background: #e9ecef;
+  }
+
+  .no-products {
+    text-align: center;
+    padding: 4rem 2rem;
+    grid-column: 1 / -1;
+  }
+
+  .no-products-icon {
+    font-size: 4rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Compare Panel */
+  .compare-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--primary-black);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .compare-panel.active {
+    transform: translateY(0);
+  }
+
+  .compare-items {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    max-width: 60%;
+  }
+
+  .compare-item {
+    background: white;
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .remove-compare {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--accent-red);
+    font-size: 1.2rem;
+  }
+
+  /* Footer */
+  .main-footer {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    padding: 4rem 2rem 2rem;
+    margin-top: 4rem;
+  }
+
+  @media (max-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    .main-nav {
+      display: none;
+    }
+    
+    .catalog-container {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .product-actions {
+      flex-direction: column;
+    }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="main-header">
+  <div class="header-container">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">👑</div>
+      <div>
+        <div class="logo-text">DROP SHOP</div>
+        <div class="logo-subtitle">ЯКУТСК | ОРИГИНАЛЫ & РЕПЛИКИ</div>
+      </div>
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">Главная</a>
+      <a href="catalog.html" class="nav-link active">Каталог</a>
+      <a href="about.html" class="nav-link">О нас</a>
+      <a href="contact.html" class="nav-link">Контакты</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="action-btn" onclick="toggleWishlist()">
+        <i class="far fa-heart"></i>
+        <span class="badge" id="wishlistCount">0</span>
+      </button>
+      <button class="action-btn" onclick="toggleCompare()">
+        <i class="fas fa-balance-scale"></i>
+        <span class="badge" id="compareCount">0</span>
+      </button>
+      <button class="action-btn" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="badge cart-badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="catalog-container">
+  <div class="catalog-header">
+    <h1 class="catalog-title">Каталог товаров</h1>
+    <p class="catalog-subtitle">Реплики в наличии • Оригиналы под заказ • Гарантия качества</p>
+  </div>
+
+  <div class="filters-container">
+    <input type="text" class="search-box" placeholder="Поиск товаров..." onkeyup="searchProducts(this.value)">
+    
+    <div class="filter-group">
+      <div class="filter-title">Тип товара:</div>
+      <div class="filter-options">
+        <button class="filter-btn active" onclick="filterProducts('all')">Все</button>
+        <button class="filter-btn" onclick="filterProducts('original')">Оригиналы</button>
+        <button class="filter-btn" onclick="filterProducts('replica')">Реплики</button>
+      </div>
+    </div>
+    
+    <div class="filter-group">
+      <div class="filter-title">Категория:</div>
+      <div class="filter-options">
+        <button class="filter-btn active" onclick="filterCategory('all')">Все</button>
+        <button class="filter-btn" onclick="filterCategory('обувь')">Обувь</button>
+        <button class="filter-btn" onclick="filterCategory('мужская')">Мужская</button>
+        <button class="filter-btn" onclick="filterCategory('женская')">Женская</button>
+        <button class="filter-btn" onclick="filterCategory('аксессуары')">Аксессуары</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="products-grid" id="productsGrid">
+    <!-- Товары загружаются через JavaScript -->
+  </div>
+</div>
+
+<div class="compare-panel" id="comparePanel">
+  <div class="compare-items" id="compareItems"></div>
+  <div>
+    <button class="btn btn-secondary" onclick="clearCompare()" style="margin-right: 10px;">Очистить</button>
+    <button class="btn btn-primary" onclick="compareProducts()">
+      Сравнить (<span id="compareNumber">0</span>/3)
+    </button>
+  </div>
+</div>
+
+<script>
+  let allProducts = [];
+  let filteredProducts = [];
+  let currentTypeFilter = 'all';
+  let currentCategoryFilter = 'all';
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  let compareList = JSON.parse(localStorage.getItem('compare')) || [];
+  let cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+  // Загрузка товаров
+  function loadProducts() {
+    // Загружаем товары из каталога
+    allProducts = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+    
+    // Если в каталоге нет товаров, создаем тестовые данные
+    if (allProducts.length === 0) {
+      allProducts = [
+        {
+          id: 101,
+          name: "Nike Air Jordan 1 Original",
+          price: 34990,
+          originalPrice: 34990,
+          type: "original",
+          category: "обувь",
+          image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800",
+          rating: 4.8,
+          reviews: 24,
+          badge: "Оригинал",
+          inStock: false
+        },
+        {
+          id: 201,
+          name: "Nike Air Jordan 1 Replica",
+          price: 12990,
+          originalPrice: 34990,
+          type: "replica",
+          category: "обувь",
+          image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800",
+          rating: 4.4,
+          reviews: 56,
+          badge: "Топ реплика",
+          inStock: true
+        },
+        {
+          id: 102,
+          name: "Burberry Classic Shirt",
+          price: 44990,
+          originalPrice: 44990,
+          type: "original",
+          category: "мужская",
+          image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20250325/c5cb34b6334845039416a24e165f8c8a.jpg?x-oss-process=image/format,webp/resize,w_800",
+          rating: 4.9,
+          reviews: 18,
+          badge: "Лимитированная серия",
+          inStock: false
+        }
+      ];
+      
+      localStorage.setItem('catalogProducts', JSON.stringify(allProducts));
+    }
+    
+    applyFilters();
+    updateCounters();
+  }
+
+  // Фильтрация товаров
+  function filterProducts(type) {
+    currentTypeFilter = type;
+    
+    // Обновляем активные кнопки
+    document.querySelectorAll('.filter-options button').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    applyFilters();
+  }
+
+  function filterCategory(category) {
+    currentCategoryFilter = category;
+    applyFilters();
+  }
+
+  function applyFilters() {
+    filteredProducts = allProducts.filter(product => {
+      // Фильтр по типу
+      if (currentTypeFilter !== 'all' && product.type !== currentTypeFilter) {
+        return false;
+      }
+      
+      // Фильтр по категории
+      if (currentCategoryFilter !== 'all' && product.category !== currentCategoryFilter) {
+        return false;
+      }
+      
+      return true;
+    });
+    
+    renderProducts();
+  }
+
+  // Поиск товаров
+  function searchProducts(input) {
+    const searchTerm = input.toLowerCase();
+    
+    if (!searchTerm) {
+      applyFilters();
+      return;
+    }
+    
+    filteredProducts = allProducts.filter(product => {
+      const name = product.name.toLowerCase();
+      const category = product.category.toLowerCase();
+      const type = product.type === 'original' ? 'оригинал' : 'реплика';
+      
+      return name.includes(searchTerm) || 
+             category.includes(searchTerm) || 
+             type.includes(searchTerm);
+    });
+    
+    renderProducts();
+  }
+
+  // Отображение товаров
+  function renderProducts() {
+    const container = document.getElementById('productsGrid');
+    
+    if (filteredProducts.length === 0) {
+      container.innerHTML = `
+        <div class="no-products">
+          <div class="no-products-icon">😔</div>
+          <h3>Товары не найдены</h3>
+          <p>Попробуйте изменить параметры фильтрации или поиска</p>
+          <button class="btn btn-primary" onclick="resetFilters()" style="margin-top: 1rem;">
+            Сбросить фильтры
+          </button>
+        </div>
+      `;
+      return;
+    }
+    
+    container.innerHTML = filteredProducts.map(product => {
+      const isInWishlist = wishlist.includes(product.id);
+      const isInCompare = compareList.includes(product.id);
+      const typeClass = product.type === 'original' ? 'original-badge' : 'replica-badge';
+      const typeText = product.type === 'original' ? 'ОРИГИНАЛ' : 'РЕПЛИКА';
+      const priceClass = product.type === 'original' ? 'price-original' : 'price-replica';
+      
+      return `
+        <div class="product-card" data-id="${product.id}">
+          <div class="product-type-badge ${typeClass}">${typeText}</div>
+          ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+          
+          <div class="product-image-container">
+            <img src="${product.image}" class="product-image" alt="${product.name}">
+          </div>
+          
+          <div class="product-info">
+            <div class="product-category">${product.category}</div>
+            <h3 class="product-name">${product.name}</h3>
+            
+            <div class="product-rating">
+              <span class="rating-stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+              <span>${product.rating.toFixed(1)} (${product.reviews})</span>
+            </div>
+            
+            <div class="product-price ${priceClass}">
+              ${product.originalPrice && product.originalPrice > product.price ? 
+                `<span class="old-price">${product.originalPrice.toLocaleString()} ₽</span>` : ''}
+              ${product.price.toLocaleString()} ₽
+            </div>
+            
+            <div class="product-actions">
+              <button class="btn btn-secondary" onclick="addToWishlist(${product.id})">
+                <i class="far fa-heart"></i>
+              </button>
+              <button class="btn btn-secondary" onclick="addToCompare(${product.id})" ${isInCompare ? 'disabled' : ''}>
+                <i class="fas fa-balance-scale"></i>
+              </button>
+              <button class="btn btn-primary" onclick="addToCart(${product.id})">
+                <i class="fas fa-shopping-bag"></i>
+                ${product.type === 'original' ? 'Заказать' : 'В корзину'}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    // Добавляем обработчики кликов на карточки
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        if (!e.target.closest('button')) {
+          const productId = this.getAttribute('data-id');
+          window.location.href = `product.html?id=${productId}`;
+        }
+      });
+    });
+  }
+
+  // Функции работы с товарами
+  function addToCart(productId) {
+    const product = allProducts.find(p => p.id == productId);
+    if (!product) return;
+    
+    const cartKey = `product_${productId}_${Date.now()}`;
+    
+    cart[cartKey] = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      type: product.type,
+      category: product.category,
+      quantity: 1,
+      size: 'M',
+      deliveryTime: product.type === 'original' ? '7-14 дней' : '2-3 часа'
+    };
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCounters();
+    
+    showNotification(`"${product.name}" добавлен в корзину`);
+  }
+
+  function addToWishlist(productId) {
+    if (!wishlist.includes(productId)) {
+      wishlist.push(productId);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      updateCounters();
+      showNotification('Товар добавлен в избранное');
+    }
+  }
+
+  function addToCompare(productId) {
+    if (compareList.length >= 3) {
+      showNotification('Можно добавить не более 3 товаров для сравнения', 'error');
+      return;
+    }
+    
+    if (!compareList.includes(productId)) {
+      compareList.push(productId);
+      localStorage.setItem('compare', JSON.stringify(compareList));
+      updateCounters();
+      updateComparePanel();
+      showNotification('Товар добавлен к сравнению');
+    }
+  }
+
+  function toggleWishlist() {
+    if (wishlist.length === 0) {
+      showNotification('В избранном пока ничего нет', 'info');
+      return;
+    }
+    window.location.href = 'wishlist.html';
+  }
+
+  function toggleCompare() {
+    if (compareList.length < 2) {
+      showNotification('Добавьте минимум 2 товара для сравнения', 'info');
+      return;
+    }
+    window.location.href = 'compare.html';
+  }
+
+  // Панель сравнения
+  function updateComparePanel() {
+    const panel = document.getElementById('comparePanel');
+    const itemsContainer = document.getElementById('compareItems');
+    const countElement = document.getElementById('compareNumber');
+    
+    countElement.textContent = compareList.length;
+    
+    if (compareList.length > 0) {
+      panel.classList.add('active');
+      
+      itemsContainer.innerHTML = compareList.map(productId => {
+        const product = allProducts.find(p => p.id == productId);
+        if (!product) return '';
+        
+        return `
+          <div class="compare-item">
+            ${product.name}
+            <button class="remove-compare" onclick="removeFromCompare(${productId})">×</button>
+          </div>
+        `;
+      }).join('');
+    } else {
+      panel.classList.remove('active');
+    }
+  }
+
+  function removeFromCompare(productId) {
+    compareList = compareList.filter(id => id !== productId);
+    localStorage.setItem('compare', JSON.stringify(compareList));
+    updateCounters();
+    updateComparePanel();
+    renderProducts(); // Обновляем кнопки сравнения
+  }
+
+  function clearCompare() {
+    compareList = [];
+    localStorage.setItem('compare', JSON.stringify(compareList));
+    updateCounters();
+    updateComparePanel();
+    renderProducts();
+  }
+
+  function compareProducts() {
+    if (compareList.length < 2) {
+      showNotification('Добавьте минимум 2 товара для сравнения', 'info');
+      return;
+    }
+    window.location.href = `compare.html?ids=${compareList.join('_')}`;
+  }
+
+  // Утилиты
+  function updateCounters() {
+    const cartItems = Object.values(cart).reduce((sum, item) => sum + (item.quantity || 1), 0);
+    document.getElementById('cartCount').textContent = cartItems;
+    document.getElementById('wishlistCount').textContent = wishlist.length;
+    document.getElementById('compareCount').textContent = compareList.length;
+  }
+
+  function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: ${type === 'success' ? '#27ae60' : '#e74c3c'};
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      animation: slideInRight 0.3s ease;
+    `;
+    notification.innerHTML = `<strong>${type === 'success' ? '✓' : '✗'} ${message}</strong>`;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.animation = 'slideInRight 0.3s ease reverse';
+      setTimeout(() => notification.remove(), 300);
+    }, 2000);
+  }
+
+  function resetFilters() {
+    currentTypeFilter = 'all';
+    currentCategoryFilter = 'all';
+    
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    document.querySelectorAll('.filter-options button')[0].classList.add('active');
+    document.querySelectorAll('.filter-options')[1].querySelector('button').classList.add('active');
+    
+    applyFilters();
+  }
+
+  // Инициализация
+  document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
+    updateComparePanel();
+    
+    // Добавляем стили для анимаций
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
+  });
+</script>
+</body>
+</html>
